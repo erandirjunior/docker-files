@@ -1,0 +1,30 @@
+version: '3.5'
+services:
+  cpag-ws:
+    image: cpag_web
+    container_name: cpag-ws
+    build: .
+    environment:
+      - WEB_DOCUMENT_ROOT=/var/www/html/public
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+  db:
+    image: 'bitnami/postgresql:9.6'
+      #image: 'postgres:8.4.22'
+    container_name: pg_selecao
+    ports:
+      - "5432:5432"
+    environment:
+      - DEBUG=true
+      - DB_DATABASE=Cpag
+      - DB_USER=postgres
+      - DB_PASS=root
+      - 'ALLOW_EMPTY_PASSWORD=yes'
+    volumes:
+      - dba:/var/lib/postgresql/data
+volumes:
+  dba:
